@@ -60,7 +60,83 @@ console.log("Album: "+ data.album.name);
 }
 }
 
+var request = require("request");
 
+
+
+
+if(input==="movie-this"){
+
+  var nodeArgs = process.argv;
+
+
+var movieName = "";
+
+
+for (var i = 3; i < nodeArgs.length; i++) {
+
+  if (i > 3 && i < nodeArgs.length) {
+
+    movieName = movieName + "+" + nodeArgs[i];
+
+  }
+
+  else {
+
+    movieName += nodeArgs[i];
+
+  }
+}
+
+if (movieName){
+var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+
+
+request(queryUrl, function(error, response, body) {
+
+  var movie = JSON.parse(body)
+  if (!error && response.statusCode === 200) {
+   
+    console.log("Title: " + movie.Title);
+    console.log("Release Year: " + movie.Year);
+    console.log("IMBD Rating: " + movie.imdbRating);
+    console.log("Rotten Tomatoes Rating: " + movie.Ratings[1].value);
+    console.log("Country Produced: " + movie.Country);
+    console.log("Language: " + movie.Language);
+    console.log("Plot: " + movie.Plot);
+    console.log("Actors: "+ movie.Actors);
+  }
+});
+}
+else {
+  var movieName = "Space Jam"
+  var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+
+
+request(queryUrl, function(error, response, body) {
+
+  var movie = JSON.parse(body)
+  if (!error && response.statusCode === 200) {
+    
+    console.log("Title: " + movie.Title);
+    console.log("Release Year: " + movie.Year);
+    console.log("IMBD Rating: " + movie.imdbRating);
+    console.log("Rotten Tomatoes Rating: " + movie.Ratings[1].Value);
+    console.log("Country Produced: " + movie.Country);
+    console.log("Language: " + movie.Language);
+    console.log("Plot: " + movie.Plot);
+    console.log("Actors: "+ movie.Actors);
+  }
+});
+}
+}
+
+if(input === "do-what-it-says"){
+  fs.readFile("random.txt", "utf8", function(err, data){
+      console.log(data);
+  });
+
+}   
 
 
 
