@@ -35,6 +35,7 @@ spotify.search({ type: 'track', query: songName}, function(err, data) {
   if (err) {
     return console.log('Error occurred: ' + err);
   }
+ 
  var data= data.tracks.items[0];
 console.log("Artist(s): "+ data.artists[0].name); 
 console.log("Song Name: "+ data.name);
@@ -133,10 +134,32 @@ request(queryUrl, function(error, response, body) {
 
 if(input === "do-what-it-says"){
   fs.readFile("random.txt", "utf8", function(err, data){
-      console.log(data);
-  });
+     
 
-}   
+  var dataArr = data.split(',');
+	
+    input = dataArr [0];
+    
+    var songName = dataArr [1];
+   
+    
+    if (songName) {
+    spotify.search({ type: 'track', query: songName}, function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
+     
+     var data= data.tracks.items[0];
+    console.log("Artist(s): "+ data.artists[0].name); 
+    console.log("Song Name: "+ data.name);
+    console.log("Preview Link: " + data.preview_url);
+    console.log("Album: "+ data.album.name);
+        
+  });
+    }
+  })
+}
+
 
 
 
